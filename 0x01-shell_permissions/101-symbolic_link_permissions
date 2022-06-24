@@ -1,0 +1,2 @@
+#!/bin/bash
+chgrp _hello vicent staff
