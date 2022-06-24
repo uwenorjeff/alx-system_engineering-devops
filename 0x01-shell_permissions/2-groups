@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "id -G" root
+$groups root
