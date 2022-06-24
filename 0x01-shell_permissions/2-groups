@@ -1,2 +1,2 @@
 #!/bin/bash
-id -Gi
+echo id -G root
