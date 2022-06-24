@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "USER$betty"
+echo "USER$" betty
