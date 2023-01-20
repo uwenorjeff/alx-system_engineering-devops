@@ -1,21 +1,9 @@
 #!/usr/bin/env bash
-#
-# Install NGINX on my server
+# installs nginx and configure it to listens on port 80
 
-apt-get -y update
-apt-get -y install nginx
-
-cat > /var/www/html/index.html << 'EOF' 
-<html>
-  <head>
-    <title>Holberton School</title>
-  </head>
-  <body>
-    <p>Hello World!</p>
-  </body>
-</html>
-EOF
-
-service nginx start
-
-ufw allow 'Nginx HTTP'
+sudo apt -y update
+sudo apt -y upgrade
+sudo apt -y install nginx
+sudo chown -R ubuntu:ubuntu /var/www
+echo "Hello World!" > /var/www/html/index.html
+sudo service nginx start
