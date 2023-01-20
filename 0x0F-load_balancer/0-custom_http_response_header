@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-# Install the load balancer
+#to configure a new server
 
-
-sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y install haproxy
-sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
-sudo sed -i "$ a\listen 1124-lb-01\n\tbind *:80\n\tmode http\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 76640-web-02 54.160.85.51:80 check\n\tserver 76640-lb-01 54.159.26.113:80 check" /etc/haproxy/haproxy.cfg
-sudo service haproxy start
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo service nginx start
+sudo sed -i "11i\\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/nginx.conf
+echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
+sudo service nginx restart
