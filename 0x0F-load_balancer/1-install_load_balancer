@@ -11,5 +11,5 @@ frontend http_front
 backend http_back
    balance roundrobin
    server 76640-web-01 54.157.167.17:80 check
-   server 76640-web-02 54.160.85.51:80 check" >> /etc/haproxy/haproxy.cfg
+   server 76640-lb-01 54.159.26.113:80 check" >> /etc/haproxy/haproxy.cfg
 sudo service haproxy restart
