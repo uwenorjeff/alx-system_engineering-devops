@@ -10,7 +10,7 @@ printf "\nfrontend haproxynode
         default_backend backendnodes
 backend backendnodes
         balance roundrobin
-        server 76640-web-01 100.26.209.169:80 check
+        server 76640-web-01 54.157.167.17:80 check
         server 76640-web-02 54.160.85.51:80 check
 " >> /etc/haproxy/haproxy.cfg
 service haproxy restart
