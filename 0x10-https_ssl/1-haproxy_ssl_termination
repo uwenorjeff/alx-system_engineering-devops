@@ -55,8 +55,8 @@ frontend www-https
 
 backend www-backend
 	balance roundrobin
-	server 708-web-01 104.196.135.55:80 check
-	server 708-web-02 34.74.18.60:80 check
+	server 76640-web-01 54.157.167.17:80 check
+	server 76640-web-02 54.160.85.51:80 check
 
 backend letsencrypt-backend
 	server letsencrypt 127.0.0.1:54321
