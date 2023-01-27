@@ -1,6 +1,6 @@
 global
-	log /dev/log	local0
-	log /dev/log	local1 notice
+	log /dev/loglocal0
+	log /dev/loglocal1 notice
 	chroot /var/lib/haproxy
 	stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
 	stats timeout 30s
@@ -11,6 +11,9 @@ global
 	# Default SSL material locations
 	ca-base /etc/ssl/certs
 	crt-base /etc/ssl/private
+
+	maxconn 2048
+	tune.ssl.default-dh-param 2048
 
 	# Default ciphers to use on SSL-enabled listening sockets.
 	# For more information, see ciphers(1SSL). This list is from:
@@ -35,33 +38,25 @@ defaults
 	errorfile 502 /etc/haproxy/errors/502.http
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
-frontend www
+	option forwardfor
+	option http-server-close
+
+frontend www-http
 	 bind *:80
-	 bind *:443 ssl crt /etc/ssl/www.garethbrickman.tech/www.garethbrickman.tech.pem
-	 mode http
-	 default_backend holberton_backend
-backend holberton_backend
+	 reqadd X-Forwarded-Proto:\ http
+	 default_backend www-backend
+
+frontend www-https
+	 bind *:443 ssl crt /etc/haproxy/certs/ngala.tech.pem
+	 reqadd X-Forwarded-Proto:\ https
+	 acl letsencrypt-acl path_beg /.well-known/acme-challenge/
+	 use_backend letsencrypt-backend if letsencrypt-acl
+	 default_backend www-backend
+
+backend www-backend
 	balance roundrobin
-	server 977-web-01 35.243.219.137:80 check
-	server 977-web-02 35.237.245.133:80 check
+	server 708-web-01 104.196.135.55:80 check
+	server 708-web-02 34.74.18.60:80 check
 
-# The frontend only listens on port 80
-# If it detects a LetsEncrypt request, is uses the LE backend
-# Else it goes to the default backend for the web servers
-frontend fe-scalinglaravel
-    bind *:80
-
-    # Test URI to see if its a letsencrypt request
-        acl letsencrypt-acl path_beg /.well-known/acme-challenge/
-	    use_backend letsencrypt-backend if letsencrypt-acl
-
-    default_backend be-scalinglaravel
-
-# LE Backend
 backend letsencrypt-backend
-    server letsencrypt 127.0.0.1:8888
-
-# Normal (default) Backend
-# for web app servers
-backend be-scalinglaravel
-    # Config omitted here
+	server letsencrypt 127.0.0.1:54321
