@@ -1,10 +1,3 @@
-# Fix the number of max open files per process
-
-exec { 'fix--for-nginx':
-  command => "/bin/sed -i /etc/default/nginx -e 's/15/3000/'"
-}
-
-exec { 'restart nginx':
-  command => '/usr/sbin/service nginx restart',
-  require => Exec['fix--for-nginx']
-}
+# Puppet script
+exec { '/usr/bin/env sed -i s/15/1000/ /etc/default/nginx': }
+-> exec { '/usr/bin/env service nginx restart': }
