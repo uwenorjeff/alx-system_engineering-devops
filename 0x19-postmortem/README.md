@@ -1,4 +1,5 @@
-        A postmortem is a detailed report that outlines the causes, impact, and mitigation of an incident, such as an outage or failure in a 
+       
+       A postmortem is a detailed report that outlines the causes, impact, and mitigation of an incident, such as an outage or failure in a 
 system or application. The goal of a postmortem is to identify the root cause of the incident, assess the impact on the affected users, 
 and outline the steps taken to prevent similar incidents from occurring in the future.
         The postmortem typically includes a timeline of events leading up to the incident, a summary of the incident's impact on the users, 
